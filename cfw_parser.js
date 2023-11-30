@@ -1,7 +1,5 @@
-
 module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url, interval, selected }) => {
     const obj = yaml.parse(raw)
-
     //////////////////////   Proxy Group  //////////////////////
 
     //默认代理
@@ -25,7 +23,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
     const chatgpt = {
         name: 'chatgpt',
         type: 'select',
-        proxies: ['美国', '台湾', '新加坡']
+        proxies: ['美国', '台湾', '新加坡', '日本']
     };
     obj['proxy-groups'].splice(1, 0, chatgpt);
 
