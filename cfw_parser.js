@@ -3,7 +3,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
     //////////////////////   Proxy Group  //////////////////////
 
     //默认代理
-    const defProxies = obj.proxies.filter(proxy => !proxy.name.includes('流量') && !proxy.name.includes('套餐'));
+    const defProxies = obj.proxies.filter(proxy => !proxy.name.includes('剩余') && !proxy.name.includes('套餐'));
     const defAProxyGroup = {
         name: '默认代理-自动选择',
         type: 'url-test',
