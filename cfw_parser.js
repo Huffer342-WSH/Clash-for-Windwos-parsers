@@ -302,6 +302,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
+        'PROCESS-NAME,qbittorrent.exe,默认代理',
+        'DOMAIN-SUFFIX,acg.rip,默认代理',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN-SUFFIX,bing.com,bing',
         'RULE-SET,applications,DIRECT',
