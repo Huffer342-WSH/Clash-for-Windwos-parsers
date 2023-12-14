@@ -39,7 +39,14 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         type: 'select',
         proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
     };
-    obj['proxy-groups'].splice(2, 0, Microsoft);
+    obj['proxy-groups'].splice(3, 0, Microsoft);
+
+    const match = {
+        name: '漏网之鱼',
+        type: 'select',
+        proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+    };
+    obj['proxy-groups'].splice(3, 0, match);
 
     //美国
     const usProxies = obj.proxies.filter(proxy => proxy.name.includes('美国'));
@@ -332,7 +339,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'RULE-SET,tld-not-cn,默认代理',
         'RULE-SET,gfw,默认代理',
         'RULE-SET,telegramcidr,默认代理',
-        'MATCH,DIRECT'
+        'MATCH,漏网之鱼'
     ];
     obj['rules'] = newRules;
     // obj['rules'] = obj['rules'] || [];
