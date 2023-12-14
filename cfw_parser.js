@@ -327,6 +327,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,bing.com,bing',
         'PROCESS-NAME,qbittorrent.exe,默认代理',
         'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
+        'DOMAIN-SUFFIX,hp.com,默认代理',
         'DOMAIN-KEYWORD,mathworks,默认代理',
         'DOMAIN-SUFFIX,acg.rip,默认代理',
         'DOMAIN-SUFFIX,sublimetext.com,默认代理',
