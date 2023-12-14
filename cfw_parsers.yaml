@@ -319,16 +319,17 @@ parsers:
       
           //////////////////////  rules  //////////////////////
           const newRules = [
+              'DOMAIN-SUFFIX,openai.com,chatgpt',
+              'DOMAIN-SUFFIX,bing.com,bing',
               'PROCESS-NAME,qbittorrent.exe,默认代理',
               'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
               'DOMAIN-SUFFIX,acg.rip,默认代理',
               'DOMAIN-SUFFIX,sublimetext.com,默认代理',
-              'DOMAIN-SUFFIX,openai.com,chatgpt',
-              'DOMAIN-SUFFIX,bing.com,bing',
-              'RULE-SET,applications,DIRECT',
               'DOMAIN,clash.razord.top,DIRECT',
               'DOMAIN,yacd.haishan.me,DIRECT',
+              'RULE-SET,applications,DIRECT',
               'RULE-SET,private,DIRECT',
+              'RULE-SET,direct,DIRECT',
               'RULE-SET,reject,REJECT',
               'RULE-SET,Microsoft,微软服务',
               'RULE-SET,tld-not-cn,默认代理',
