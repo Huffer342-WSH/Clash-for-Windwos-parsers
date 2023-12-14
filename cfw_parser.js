@@ -34,6 +34,13 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
     };
     obj['proxy-groups'].splice(2, 0, bing);
 
+    const Microsoft = {
+        name: '微软服务',
+        type: 'select',
+        proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+    };
+    obj['proxy-groups'].splice(2, 0, Microsoft);
+
     //美国
     const usProxies = obj.proxies.filter(proxy => proxy.name.includes('美国'));
     if (usProxies.length > 0) {
@@ -293,6 +300,13 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
             url: 'https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt',
             path: './ruleset/applications.yaml',
             interval: 86400
+        },
+        'Microsoft': {
+            type: 'http',
+            behavior: 'classical',
+            url: "https://cdn.jsdelivr.net/gh/zhanyeye/clash-rules-lite@release/microsoft-rules.txt",
+            path: './providers/rule-microsoft.yaml',
+            interval: 86400
         }
     };
 
@@ -313,14 +327,15 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN,yacd.haishan.me,DIRECT',
         'RULE-SET,private,DIRECT',
         'RULE-SET,reject,REJECT',
+        'RULE-SET,Microsoft,微软服务',
         'RULE-SET,tld-not-cn,默认代理',
         'RULE-SET,gfw,默认代理',
         'RULE-SET,telegramcidr,默认代理',
         'MATCH,DIRECT'
     ];
-
-    obj['rules'] = obj['rules'] || [];
-    obj['rules'].unshift(...newRules);
+    obj['rules'] = newRules;
+    // obj['rules'] = obj['rules'] || [];
+    // obj['rules'].unshift(...newRules);
 
     return yaml.stringify(obj)
 }
