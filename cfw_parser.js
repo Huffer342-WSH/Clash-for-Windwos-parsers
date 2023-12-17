@@ -326,6 +326,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN-SUFFIX,bing.com,bing',
         'PROCESS-NAME,qbittorrent.exe,默认代理',
+        'PROCESS-NAME,fdm.exe,默认代理',
         'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
         'DOMAIN-SUFFIX,codeium.com,默认代理',
         'DOMAIN-SUFFIX,hp.com,默认代理',
