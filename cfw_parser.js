@@ -334,6 +334,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,acg.rip,默认代理',
         'DOMAIN-SUFFIX,sublimetext.com,默认代理',
         'DOMAIN-SUFFIX,zmyos.com,默认代理',
+        'DOMAIN,api.steampowered.com,默认代理',
         'DOMAIN,www.asasmr3.com,DIRECT',
         'DOMAIN,clash.razord.top,DIRECT',
         'DOMAIN,yacd.haishan.me,DIRECT',
