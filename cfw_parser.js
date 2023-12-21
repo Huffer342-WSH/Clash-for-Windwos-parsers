@@ -338,7 +338,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN,www.asasmr3.com,DIRECT',
         'DOMAIN,clash.razord.top,DIRECT',
         'DOMAIN,yacd.haishan.me,DIRECT',
-        'RULE-SET,applications,DIRECT',
+        // 'RULE-SET,applications,DIRECT',
         'RULE-SET,private,DIRECT',
         'RULE-SET,direct,DIRECT',
         'RULE-SET,reject,REJECT',
