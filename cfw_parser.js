@@ -323,6 +323,9 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
+        'DOMAIN,download.epicgames.com,DIRECT',
+        'DOMAIN,fastly-download.epicgames.com,DIRECT',
+        'DOMAIN-SUFFIX,epicgames.com,默认代理',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN-SUFFIX,bing.com,bing',
         'PROCESS-NAME,qbittorrent.exe,默认代理',
