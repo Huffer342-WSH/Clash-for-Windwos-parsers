@@ -328,6 +328,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,epicgames.com,默认代理',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN-SUFFIX,bing.com,bing',
+        'DOMAIN-SUFFIX,bingapis.com,bing',
+        'DOMAIN-SUFFIX,bingparachute.com,bing',
         'PROCESS-NAME,qbittorrent.exe,默认代理',
         'PROCESS-NAME,fdm.exe,默认代理',
         'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
