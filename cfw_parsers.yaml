@@ -37,6 +37,13 @@ parsers:
           };
           obj['proxy-groups'].splice(2, 0, bing);
       
+          const battle = {
+              name: '战网',
+              type: 'select',
+              proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+          };
+          obj['proxy-groups'].splice(2, 0, battle);
+      
           const Microsoft = {
               name: '微软服务',
               type: 'select',
@@ -336,6 +343,7 @@ parsers:
               'DOMAIN-SUFFIX,bingparachute.com,bing',
               'PROCESS-NAME,qbittorrent.exe,默认代理',
               'PROCESS-NAME,fdm.exe,默认代理',
+              'PROCESS-NAME,Battle.net.exe,战网',
               'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
               'DOMAIN-SUFFIX,codeium.com,默认代理',
               'DOMAIN-SUFFIX,hp.com,默认代理',
