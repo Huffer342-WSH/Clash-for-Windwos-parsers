@@ -333,6 +333,7 @@ parsers:
       
           //////////////////////  rules  //////////////////////
           const newRules = [
+              'DOMAIN-KEYWORD,eriktse,DIRECT',
               'DOMAIN,download.epicgames.com,DIRECT',
               'DOMAIN,fastly-download.epicgames.com,DIRECT',
               'DOMAIN-SUFFIX,openai.com,chatgpt',
