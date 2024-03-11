@@ -336,6 +336,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN,fastly-download.epicgames.com,DIRECT',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN,cdn.oaistatic.com,chatgpt',
+        'DOMAIN,ccdn.auth0.com,chatgpt',
         'DOMAIN-SUFFIX,bing.com,bing',
         'DOMAIN-KEYWORD,copilot,bing',
         'DOMAIN-SUFFIX,bingapis.com,bing',

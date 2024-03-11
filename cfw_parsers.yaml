@@ -339,6 +339,7 @@ parsers:
               'DOMAIN,fastly-download.epicgames.com,DIRECT',
               'DOMAIN-SUFFIX,openai.com,chatgpt',
               'DOMAIN,cdn.oaistatic.com,chatgpt',
+              'DOMAIN,ccdn.auth0.com,chatgpt',
               'DOMAIN-SUFFIX,bing.com,bing',
               'DOMAIN-KEYWORD,copilot,bing',
               'DOMAIN-SUFFIX,bingapis.com,bing',
