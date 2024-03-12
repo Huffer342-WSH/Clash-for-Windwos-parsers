@@ -46,7 +46,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         type: 'select',
         proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
     };
-    obj['proxy-groups'].splice(3, 0, Microsoft);
+    obj['proxy-groups'].splice(3, 0, Apple);
 
     const Microsoft = {
         name: '微软服务',
