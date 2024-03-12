@@ -41,6 +41,13 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
     };
     obj['proxy-groups'].splice(2, 0, battle);
 
+    const Apple = {
+        name: '苹果服务',
+        type: 'select',
+        proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+    };
+    obj['proxy-groups'].splice(3, 0, Microsoft);
+
     const Microsoft = {
         name: '微软服务',
         type: 'select',
@@ -337,6 +344,9 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN,cdn.oaistatic.com,chatgpt',
         'DOMAIN,ccdn.auth0.com,chatgpt',
+        'DOMAIN-KEYWORD,gemini,chatgpt',
+        'DOMAIN-KEYWORD,claude,chatgpt',
+        'DOMAIN,plausible.midway.run,chatgpt',
         'DOMAIN-SUFFIX,bing.com,bing',
         'DOMAIN-KEYWORD,copilot,bing',
         'DOMAIN-SUFFIX,bingapis.com,bing',
@@ -361,6 +371,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'RULE-SET,private,DIRECT',
         'RULE-SET,direct,DIRECT',
         'RULE-SET,reject,REJECT',
+        'RULE-SET,apple,苹果服务',
         'RULE-SET,Microsoft,微软服务',
         'RULE-SET,tld-not-cn,默认代理',
         'RULE-SET,gfw,默认代理',
