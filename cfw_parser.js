@@ -344,6 +344,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN,cdn.oaistatic.com,chatgpt',
         'DOMAIN,ccdn.auth0.com,chatgpt',
+        'DOMAIN,s.gravatar.com,chatgpt',
         'DOMAIN-KEYWORD,gemini,chatgpt',
         'DOMAIN-KEYWORD,claude,chatgpt',
         'DOMAIN,plausible.midway.run,chatgpt',
