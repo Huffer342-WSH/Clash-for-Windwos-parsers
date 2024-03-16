@@ -51,7 +51,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
     const match = {
         name: '漏网之鱼',
         type: 'select',
-        proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+        proxies: ['默认代理', '美国', '香港', '日本', '台湾', '新加坡', 'DIRECT']
     };
     obj['proxy-groups'].splice(3, 0, match);
 
