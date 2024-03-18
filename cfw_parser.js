@@ -1,5 +1,9 @@
 module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url, interval, selected }) => {
     const obj = yaml.parse(raw)
+    //////////////////////   DNS  //////////////////////
+    obj.dns["default-nameserver"].splice(0, 1, "223.5.5.5")
+    obj.dns["default-nameserver"].splice(1, 1, "119.29.29.29")
+
     //////////////////////   Proxy Group  //////////////////////
 
     //默认代理
@@ -337,8 +341,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
-        'DOMAIN-KEYWORD,starrycoding,DIRECT',
-        'DOMAIN-KEYWORD,eriktse,DIRECT',
+        'DOMAIN-KEYWORD,starrycoding,默认代理',
+        'DOMAIN-KEYWORD,eriktse,默认代理',
         'DOMAIN,download.epicgames.com,DIRECT',
         'DOMAIN,fastly-download.epicgames.com,DIRECT',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
