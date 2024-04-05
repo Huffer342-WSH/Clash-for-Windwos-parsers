@@ -343,6 +343,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
     const newRules = [
         'DOMAIN-KEYWORD,starrycoding,默认代理',
         'DOMAIN-KEYWORD,eriktse,默认代理',
+        'DOMAIN,oi-wiki.org,默认代理',
         'DOMAIN,download.epicgames.com,DIRECT',
         'DOMAIN,fastly-download.epicgames.com,DIRECT',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
