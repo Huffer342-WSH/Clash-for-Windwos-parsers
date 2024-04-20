@@ -384,6 +384,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,zmyos.com,默认代理',
         'DOMAIN,api.steampowered.com,默认代理',
         'DOMAIN,www.asasmr3.com,DIRECT',
+        'DOMAIN,tx.asmras.net,DIRECT',
+        'DOMAIN-KEYWORD,asasmr,DIRECT',
         'DOMAIN,clash.razord.top,DIRECT',
         'DOMAIN,yacd.haishan.me,DIRECT',
         // 'RULE-SET,applications,DIRECT',
