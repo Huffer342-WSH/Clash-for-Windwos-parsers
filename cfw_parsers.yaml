@@ -7,6 +7,19 @@ parsers:
           obj.dns["default-nameserver"].splice(0, 1, "223.5.5.5")
           obj.dns["default-nameserver"].splice(1, 1, "119.29.29.29")
       
+          obj.dns["nameserver"].splice(0, 1, "https://doh.pub/dns-query")
+          obj.dns["nameserver"].splice(1, 1, "https://dns.alidns.com/dns-query")
+      
+          obj.dns["fallback"].splice(0, 1, "https://1.1.1.1/dns-query")
+          obj.dns["fallback"].splice(1, 1, "https://208.67.222.222/dns-query")
+      
+          const fallback_filter = {
+              geoip: true,
+              "geoip-code": 'CN',
+              ipcidr: ['240.0.0.0/4', '0.0.0.0/32']
+          };
+          obj.dns["fallback-filter"] = fallback_filter
+      
           //////////////////////   Proxy Group  //////////////////////
       
           //默认代理
