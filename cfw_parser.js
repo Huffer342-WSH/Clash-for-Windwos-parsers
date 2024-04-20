@@ -354,9 +354,10 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
-        'DOMAIN-KEYWORD,starrycoding,默认代理',
-        'DOMAIN-KEYWORD,eriktse,默认代理',
-        'DOMAIN,oi-wiki.org,默认代理',
+        //starrycoding
+        'DOMAIN-KEYWORD,starrycoding,DIRECT',
+        'DOMAIN-KEYWORD,eriktse,DIRECT',
+        'DOMAIN,oi-wiki.org,DIRECT',
         'DOMAIN,download.epicgames.com,DIRECT',
         'DOMAIN,fastly-download.epicgames.com,DIRECT',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
@@ -384,6 +385,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,zmyos.com,默认代理',
         'DOMAIN,api.steampowered.com,默认代理',
         'DOMAIN,www.asasmr3.com,DIRECT',
+        'DOMAIN,cdn2.asmrfx.com,DIRECT',
         'DOMAIN,tx.asmras.net,DIRECT',
         'DOMAIN-KEYWORD,asasmr,DIRECT',
         'DOMAIN,clash.razord.top,DIRECT',
@@ -397,6 +399,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'RULE-SET,tld-not-cn,默认代理',
         'RULE-SET,gfw,默认代理',
         'RULE-SET,telegramcidr,默认代理',
+        'GEOIP,CN,DIRECT',
         'MATCH,漏网之鱼'
     ];
     obj['rules'] = newRules;
