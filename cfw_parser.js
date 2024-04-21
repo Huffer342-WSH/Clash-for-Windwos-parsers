@@ -373,6 +373,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'PROCESS-NAME,Battle.net.exe,战网',
         'DOMAIN,telemetry-in.battle.net,战网',
         'DOMAIN-SUFFIX,bingparachute.com,bing',
+        'DOMAIN-SUFFIX,itzmx.com,默认代理',
         'DOMAIN-SUFFIX,epicgames.com,默认代理',
         'PROCESS-NAME,qbittorrent.exe,默认代理',
         'PROCESS-NAME,fdm.exe,默认代理',
