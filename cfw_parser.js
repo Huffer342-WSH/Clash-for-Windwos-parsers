@@ -360,6 +360,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN,oi-wiki.org,DIRECT',
         'DOMAIN,download.epicgames.com,DIRECT',
         'DOMAIN,fastly-download.epicgames.com,DIRECT',
+        //chatgpt
+        'DOMAIN-SUFFIX,chatgpt.com,chatgpt',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN,cdn.oaistatic.com,chatgpt',
         'DOMAIN,ccdn.auth0.com,chatgpt',
