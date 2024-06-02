@@ -354,6 +354,11 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
+        //steam
+        'DOMAIN,api.steampowered.com,默认代理',
+        'PROCESS-NAME,steamwebhelper.exe,默认代理',
+        'PROCESS-NAME,steam.exe,DIRECT',
+
         //starrycoding
         'DOMAIN-KEYWORD,starrycoding,DIRECT',
         'DOMAIN-KEYWORD,eriktse,DIRECT',
@@ -386,7 +391,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,acg.rip,默认代理',
         'DOMAIN-SUFFIX,sublimetext.com,默认代理',
         'DOMAIN-SUFFIX,zmyos.com,默认代理',
-        'DOMAIN,api.steampowered.com,默认代理',
+
         'DOMAIN,www.asasmr3.com,DIRECT',
         'DOMAIN,cdn2.asmrfx.com,DIRECT',
         'DOMAIN,tx.asmras.net,DIRECT',
