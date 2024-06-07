@@ -354,6 +354,10 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
+
+        //IEEE
+        'DOMAIN,ieeexplore.ieee.org,默认代理',
+
         //steam
         'DOMAIN,api.steampowered.com,默认代理',
         'PROCESS-NAME,steamwebhelper.exe,默认代理',
