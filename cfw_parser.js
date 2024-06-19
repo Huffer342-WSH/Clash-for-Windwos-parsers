@@ -354,6 +354,10 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
+        //Matlab
+        'DOMAIN,esd.mathworks.com,DIRECT',
+        'PROCESS-NAME,MATLABWindow.exe,DIRECT',
+        'DOMAIN-SUFFIX,mathworks.com,默认代理',
 
         //IEEE
         'DOMAIN,ieeexplore.ieee.org,默认代理',
@@ -391,7 +395,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
         'DOMAIN-SUFFIX,codeium.com,默认代理',
         'DOMAIN-SUFFIX,hp.com,默认代理',
-        'DOMAIN-KEYWORD,mathworks,默认代理',
+
         'DOMAIN-SUFFIX,acg.rip,默认代理',
         'DOMAIN-SUFFIX,sublimetext.com,默认代理',
         'DOMAIN-SUFFIX,zmyos.com,默认代理',
