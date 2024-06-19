@@ -355,7 +355,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
     //////////////////////  rules  //////////////////////
     const newRules = [
         //Matlab
-        'DOMAIN,esd.mathworks.com,DIRECT',
+        'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
         'PROCESS-NAME,MATLABWindow.exe,DIRECT',
         'DOMAIN-SUFFIX,mathworks.com,默认代理',
 
