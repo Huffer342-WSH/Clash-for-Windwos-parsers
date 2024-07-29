@@ -357,6 +357,8 @@ parsers:
       
           //////////////////////  rules  //////////////////////
           const newRules = [
+              //FreeRTOS
+              'DOMAIN,www.freertos.org,默认代理',
               //Matlab
               'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
               'PROCESS-NAME,MATLABWindow.exe,DIRECT',
