@@ -354,14 +354,14 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
-        //FreeRTOS
-        'DOMAIN,www.freertos.org,默认代理',
         //Matlab
         'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
         'PROCESS-NAME,MATLABWindow.exe,DIRECT',
         'DOMAIN-SUFFIX,mathworks.com,默认代理',
 
         //IEEE
+        'DOMAIN,www.freertos.org,默认代理',
+        'DOMAIN,katex.org,默认代理',
         'DOMAIN,ieeexplore.ieee.org,默认代理',
 
         //steam
