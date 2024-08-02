@@ -364,6 +364,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN,katex.org,默认代理',
         'DOMAIN,ieeexplore.ieee.org,默认代理',
         'DOMAIN,jichangtuijian.com,默认代理',
+        'DOMAIN,plotly.com,默认代理',
 
         //steam
         'DOMAIN,api.steampowered.com,默认代理',
