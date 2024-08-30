@@ -358,25 +358,43 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
         'PROCESS-NAME,MATLABWindow.exe,DIRECT',
         'DOMAIN-SUFFIX,mathworks.com,默认代理',
-
-        //IEEE
-        'DOMAIN,www.freertos.org,默认代理',
-        'DOMAIN,katex.org,默认代理',
-        'DOMAIN,ieeexplore.ieee.org,默认代理',
-        'DOMAIN,jichangtuijian.com,默认代理',
-        'DOMAIN,plotly.com,默认代理',
-
         //steam
         'DOMAIN,api.steampowered.com,默认代理',
         'PROCESS-NAME,steamwebhelper.exe,默认代理',
         'PROCESS-NAME,steam.exe,DIRECT',
 
-        //starrycoding
+        //默认代理
+        'DOMAIN,www.freertos.org,默认代理',
+        'DOMAIN,katex.org,默认代理',
+        'DOMAIN,ieeexplore.ieee.org,默认代理',
+        'DOMAIN,jichangtuijian.com,默认代理',
+        'DOMAIN,plotly.com,默认代理',
+        'DOMAIN-SUFFIX,gardenparty.one,默认代理',
+        'DOMAIN-SUFFIX,ppgnginx.com,默认代理',
+        'DOMAIN-SUFFIX,itzmx.com,默认代理',
+        'DOMAIN-SUFFIX,epicgames.com,默认代理',
+        'PROCESS-NAME,qbittorrent.exe,默认代理',
+        'PROCESS-NAME,fdm.exe,默认代理',
+        'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
+        'DOMAIN-SUFFIX,codeium.com,默认代理',
+        'DOMAIN-SUFFIX,hp.com,默认代理',
+        'DOMAIN-SUFFIX,acg.rip,默认代理',
+        'DOMAIN-SUFFIX,sublimetext.com,默认代理',
+        'DOMAIN-SUFFIX,zmyos.com,默认代理',
+
+        // DIRECT
         'DOMAIN-KEYWORD,starrycoding,DIRECT',
         'DOMAIN-KEYWORD,eriktse,DIRECT',
         'DOMAIN,oi-wiki.org,DIRECT',
         'DOMAIN,download.epicgames.com,DIRECT',
         'DOMAIN,fastly-download.epicgames.com,DIRECT',
+        'DOMAIN,www.asasmr3.com,DIRECT',
+        'DOMAIN,cdn2.asmrfx.com,DIRECT',
+        'DOMAIN,tx.asmras.net,DIRECT',
+        'DOMAIN-KEYWORD,asasmr,DIRECT',
+        'DOMAIN,clash.razord.top,DIRECT',
+        'DOMAIN,yacd.haishan.me,DIRECT',
+
         //chatgpt
         'DOMAIN-SUFFIX,chatgpt.com,chatgpt',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
@@ -386,30 +404,16 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-KEYWORD,gemini,chatgpt',
         'DOMAIN-KEYWORD,claude,chatgpt',
         'DOMAIN,plausible.midway.run,chatgpt',
+
         'DOMAIN-SUFFIX,bing.com,bing',
         'DOMAIN-KEYWORD,copilot,bing',
         'DOMAIN-SUFFIX,bingapis.com,bing',
+        'DOMAIN-SUFFIX,bingparachute.com,bing',
+
         'PROCESS-NAME,Battle.net.exe,战网',
         'DOMAIN,telemetry-in.battle.net,战网',
-        'DOMAIN-SUFFIX,bingparachute.com,bing',
-        'DOMAIN-SUFFIX,itzmx.com,默认代理',
-        'DOMAIN-SUFFIX,epicgames.com,默认代理',
-        'PROCESS-NAME,qbittorrent.exe,默认代理',
-        'PROCESS-NAME,fdm.exe,默认代理',
-        'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
-        'DOMAIN-SUFFIX,codeium.com,默认代理',
-        'DOMAIN-SUFFIX,hp.com,默认代理',
 
-        'DOMAIN-SUFFIX,acg.rip,默认代理',
-        'DOMAIN-SUFFIX,sublimetext.com,默认代理',
-        'DOMAIN-SUFFIX,zmyos.com,默认代理',
 
-        'DOMAIN,www.asasmr3.com,DIRECT',
-        'DOMAIN,cdn2.asmrfx.com,DIRECT',
-        'DOMAIN,tx.asmras.net,DIRECT',
-        'DOMAIN-KEYWORD,asasmr,DIRECT',
-        'DOMAIN,clash.razord.top,DIRECT',
-        'DOMAIN,yacd.haishan.me,DIRECT',
         // 'RULE-SET,applications,DIRECT',
         'RULE-SET,private,DIRECT',
         'RULE-SET,direct,DIRECT',
