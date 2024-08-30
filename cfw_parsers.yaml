@@ -21,233 +21,138 @@ parsers:
           obj.dns["fallback-filter"] = fallback_filter
       
           //////////////////////   Proxy Group  //////////////////////
+          function createProxyGroups(obj, name, auxStrings) {
+              // 直接在 filter 中提取 name 属性并过滤
+              const proxyNames = obj.proxies
+                  .map(proxy => proxy.name)
+                  .filter(proxyName => auxStrings.some(aux => proxyName.includes(aux)));
       
-          //默认代理
-          const defProxies = obj.proxies.filter(proxy => !proxy.name.includes('剩余') && !proxy.name.includes('套餐'));
-          const defAProxyGroup = {
-              name: '默认代理-自动选择',
+              if (proxyNames.length > 0) {
+                  // 创建自动选择组
+                  const autoProxyGroup = {
+                      name: `${name}-自动选择`,
+                      type: 'url-test',
+                      proxies: proxyNames,
+                      url: 'http://www.gstatic.com/generate_204',
+                      interval: 86400
+                  };
+      
+                  // 创建选择组
+                  const proxyGroup = {
+                      name: name,
+                      type: 'select',
+                      proxies: [`${name}-自动选择`, ...proxyNames]
+                  };
+      
+                  // 返回这两个组
+                  return { autoProxyGroup, proxyGroup };
+              }
+      
+              // 如果没有找到符合条件的代理，返回 null
+              return null;
+          }
+      
+          function addProxyGroup(obj, listCountry, name, auxStrings) {
+              const groupTemp = createProxyGroups(obj, name, auxStrings);
+              if (groupTemp) {
+                  const { autoProxyGroup, proxyGroup } = groupTemp;
+                  obj['proxy-groups'].push(autoProxyGroup, proxyGroup);
+                  listCountry.push(name);
+              }
+          }
+      
+          //节点名称分组
+          const proxiesRAW = obj.proxies.map(proxy => proxy.name);
+          const proxiesUseful = proxiesRAW.filter(proxy => {
+              return !proxy.includes('剩余') && !proxy.includes('套餐') && !proxy.includes('网址') && !proxy.includes('客服');
+          });
+          const proxiesDefault = ['默认代理', 'DIRECT', ...proxiesUseful];
+      
+          const proxiesChatgpt = proxiesUseful.filter(proxy => !proxy.includes('香港') && !proxy.includes('套餐') && !proxy.includes('网址') && !proxy.includes('客服'));
+      
+          const proxiesCountry = [];
+      
+          // 生成各个国家的节点组
+          addProxyGroup(obj, proxiesCountry, '节点组-美国', ['美国', 'US'])
+          addProxyGroup(obj, proxiesCountry, '节点组-香港', ['香港', 'HK']);
+          addProxyGroup(obj, proxiesCountry, '节点组-台湾', ['台湾', 'TW']);
+          addProxyGroup(obj, proxiesCountry, '节点组-日本', ['日本', 'JP']);
+          addProxyGroup(obj, proxiesCountry, '节点组-韩国', ['韩国', 'KR']);
+          addProxyGroup(obj, proxiesCountry, '节点组-澳大利亚', ['澳大利亚', 'AU']);
+          addProxyGroup(obj, proxiesCountry, '节点组-新加坡', ['新加坡', 'SG']);
+          addProxyGroup(obj, proxiesCountry, '节点组-法国', ['法国', 'FR']);
+          addProxyGroup(obj, proxiesCountry, '节点组-英国', ['英国', 'UK']);
+          addProxyGroup(obj, proxiesCountry, '节点组-德国', ['德国', 'DE']);
+          addProxyGroup(obj, proxiesCountry, '节点组-意大利', ['意大利', 'IT']);
+          addProxyGroup(obj, proxiesCountry, '节点组-俄罗斯', ['俄罗斯', 'RU']);
+      
+          //AA默认代理-自动选择
+          const proxyGroup_autoSelect_Default = {
+              name: 'AA默认代理-自动选择',
               type: 'url-test',
-              proxies: defProxies.map(proxy => proxy.name),
+              proxies: proxiesUseful,
               url: 'http://www.gstatic.com/generate_204',
               interval: 86400
           };
-          obj['proxy-groups'].push(defAProxyGroup);
-          const defProxyGroup = {
+          obj['proxy-groups'].push(proxyGroup_autoSelect_Default);
+      
+          // 默认代理
+          const proxyGroup_default = {
               name: '默认代理',
               type: 'select',
-              proxies: defProxies.map(proxy => proxy.name)
+              proxies: ['AA默认代理-自动选择', 'DIRECT', ...proxiesCountry, ...proxiesRAW]
           };
-          defProxyGroup.proxies.splice(0, 0, '默认代理-自动选择');
-          obj['proxy-groups'].splice(0, 0, defProxyGroup);
+          obj['proxy-groups'].splice(0, 0, proxyGroup_default);
       
-          const chatgpt = {
+          //chatgpt
+          const proxyGroup_ChatGPT = {
               name: 'chatgpt',
               type: 'select',
-              proxies: ['美国', '台湾', '新加坡', '日本']
+              proxies: [...proxiesChatgpt]
           };
-          obj['proxy-groups'].splice(1, 0, chatgpt);
+          obj['proxy-groups'].splice(1, 0, proxyGroup_ChatGPT);
       
           const bing = {
               name: 'bing',
               type: 'select',
-              proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+              proxies: [...proxiesChatgpt]
           };
           obj['proxy-groups'].splice(2, 0, bing);
       
           const battle = {
               name: '战网',
               type: 'select',
-              proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+              proxies: proxiesDefault,
           };
           obj['proxy-groups'].splice(2, 0, battle);
       
           const Apple = {
               name: '苹果服务',
               type: 'select',
-              proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+              proxies: proxiesDefault,
           };
           obj['proxy-groups'].splice(3, 0, Apple);
       
           const Microsoft = {
               name: '微软服务',
               type: 'select',
-              proxies: ['美国', 'DIRECT', '香港', '台湾', '新加坡']
+              proxies: proxiesDefault,
           };
           obj['proxy-groups'].splice(3, 0, Microsoft);
       
           const match = {
               name: '漏网之鱼',
               type: 'select',
-              proxies: ['默认代理', '美国', '香港', '日本', '台湾', '新加坡', 'DIRECT']
+              proxies: proxiesDefault,
           };
           obj['proxy-groups'].splice(3, 0, match);
       
-          //美国
-          const usProxies = obj.proxies.filter(proxy => proxy.name.includes('美国'));
-          if (usProxies.length > 0) {
-              const usProxyGroup = {
-                  name: '美国',
-                  type: 'select',
-                  proxies: usProxies.map(proxy => proxy.name)
-              };
-              usProxyGroup.proxies.push('美国-自动选择')
-              obj['proxy-groups'].push(usProxyGroup);
-              const us_AutoProxyGroup = {
-                  name: '美国-自动选择',
-                  type: 'url-test',
-                  proxies: usProxies.map(proxy => proxy.name),
-                  url: 'http://www.gstatic.com/generate_204',
-                  interval: 86400
-              };
-              obj['proxy-groups'].push(us_AutoProxyGroup);
-          } else {
-              const usProxyGroup = {
-                  name: '美国',
-                  type: 'select',
-                  proxies: ['DIRECT']
-              };
-              obj['proxy-groups'].push(usProxyGroup);
-          }
       
-          // 香港
-          const hkProxies = obj.proxies.filter(proxy => proxy.name.includes('香港'));
-          if (hkProxies.length > 0) {
-              const hkProxyGroup = {
-                  name: '香港',
-                  type: 'select',
-                  proxies: hkProxies.map(proxy => proxy.name)
-              };
-              hkProxyGroup.proxies.push('香港-自动选择');
-              obj['proxy-groups'].push(hkProxyGroup);
       
-              const hk_AutoProxyGroup = {
-                  name: '香港-自动选择',
-                  type: 'url-test',
-                  proxies: hkProxies.map(proxy => proxy.name),
-                  url: 'http://www.gstatic.com/generate_204',
-                  interval: 86400
-              };
-              obj['proxy-groups'].push(hk_AutoProxyGroup);
-          } else {
-              const hkProxyGroup = {
-                  name: '香港',
-                  type: 'select',
-                  proxies: ['DIRECT']
-              };
-              obj['proxy-groups'].push(hkProxyGroup);
-          }
       
-          // 台湾
-          const twProxies = obj.proxies.filter(proxy => proxy.name.includes('台湾'));
-          if (twProxies.length > 0) {
-              const twProxyGroup = {
-                  name: '台湾',
-                  type: 'select',
-                  proxies: twProxies.map(proxy => proxy.name)
-              };
-              twProxyGroup.proxies.push('台湾-自动选择');
-              obj['proxy-groups'].push(twProxyGroup);
       
-              const tw_AutoProxyGroup = {
-                  name: '台湾-自动选择',
-                  type: 'url-test',
-                  proxies: twProxies.map(proxy => proxy.name),
-                  url: 'http://www.gstatic.com/generate_204',
-                  interval: 86400
-              };
-              obj['proxy-groups'].push(tw_AutoProxyGroup);
-          } else {
-              const twProxyGroup = {
-                  name: '台湾',
-                  type: 'select',
-                  proxies: ['DIRECT']
-              };
-              obj['proxy-groups'].push(twProxyGroup);
-          }
       
-          // 日本
-          const jpProxies = obj.proxies.filter(proxy => proxy.name.includes('日本'));
-          if (jpProxies.length > 0) {
-              const jpProxyGroup = {
-                  name: '日本',
-                  type: 'select',
-                  proxies: jpProxies.map(proxy => proxy.name)
-              };
-              jpProxyGroup.proxies.push('日本-自动选择');
-              obj['proxy-groups'].push(jpProxyGroup);
       
-              const jp_AutoProxyGroup = {
-                  name: '日本-自动选择',
-                  type: 'url-test',
-                  proxies: jpProxies.map(proxy => proxy.name),
-                  url: 'http://www.gstatic.com/generate_204',
-                  interval: 86400
-              };
-              obj['proxy-groups'].push(jp_AutoProxyGroup);
-          } else {
-              const jpProxyGroup = {
-                  name: '日本',
-                  type: 'select',
-                  proxies: ['DIRECT']
-              };
-              obj['proxy-groups'].push(jpProxyGroup);
-          }
-      
-          // 新加坡
-          const sgProxies = obj.proxies.filter(proxy => proxy.name.includes('新加坡'));
-          if (sgProxies.length > 0) {
-              const sgProxyGroup = {
-                  name: '新加坡',
-                  type: 'select',
-                  proxies: sgProxies.map(proxy => proxy.name)
-              };
-              sgProxyGroup.proxies.push('新加坡-自动选择');
-              obj['proxy-groups'].push(sgProxyGroup);
-      
-              const sg_AutoProxyGroup = {
-                  name: '新加坡-自动选择',
-                  type: 'url-test',
-                  proxies: sgProxies.map(proxy => proxy.name),
-                  url: 'http://www.gstatic.com/generate_204',
-                  interval: 86400
-              };
-              obj['proxy-groups'].push(sg_AutoProxyGroup);
-          } else {
-              const sgProxyGroup = {
-                  name: '新加坡',
-                  type: 'select',
-                  proxies: ['DIRECT']
-              };
-              obj['proxy-groups'].push(sgProxyGroup);
-          }
-      
-          // 俄罗斯
-          const ruProxies = obj.proxies.filter(proxy => proxy.name.includes('俄罗斯'));
-          if (ruProxies.length > 0) {
-              const ruProxyGroup = {
-                  name: '俄罗斯',
-                  type: 'select',
-                  proxies: ruProxies.map(proxy => proxy.name)
-              };
-              ruProxyGroup.proxies.push('俄罗斯-自动选择');
-              obj['proxy-groups'].push(ruProxyGroup);
-      
-              const ru_AutoProxyGroup = {
-                  name: '俄罗斯-自动选择',
-                  type: 'url-test',
-                  proxies: ruProxies.map(proxy => proxy.name),
-                  url: 'http://www.gstatic.com/generate_204',
-                  interval: 86400
-              };
-              obj['proxy-groups'].push(ru_AutoProxyGroup);
-          } else {
-              const ruProxyGroup = {
-                  name: '俄罗斯',
-                  type: 'select',
-                  proxies: ['DIRECT']
-              };
-              obj['proxy-groups'].push(ruProxyGroup);
-          }
       
           //////////////////////   Rule Providers  //////////////////////
           const newRuleProviders = {
