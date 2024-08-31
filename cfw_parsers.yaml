@@ -66,11 +66,8 @@ parsers:
           const proxiesUseful = proxiesRAW.filter(proxy => {
               return !proxy.includes('剩余') && !proxy.includes('套餐') && !proxy.includes('网址') && !proxy.includes('客服');
           });
-          const proxiesDefault = ['默认代理', 'DIRECT', ...proxiesUseful];
       
-          const proxiesChatgpt = proxiesUseful.filter(proxy => !proxy.includes('香港') && !proxy.includes('套餐') && !proxy.includes('网址') && !proxy.includes('客服'));
-      
-          const proxiesCountry = [];
+          const proxiesCountry = [];//用于保存各个国家节点组的名称
       
           // 生成各个国家的节点组
           addProxyGroup(obj, proxiesCountry, '节点组-美国', ['美国', 'US'])
@@ -85,6 +82,9 @@ parsers:
           addProxyGroup(obj, proxiesCountry, '节点组-德国', ['德国', 'DE']);
           addProxyGroup(obj, proxiesCountry, '节点组-意大利', ['意大利', 'IT']);
           addProxyGroup(obj, proxiesCountry, '节点组-俄罗斯', ['俄罗斯', 'RU']);
+      
+          const proxiesDefault = ['默认代理', 'DIRECT', ...proxiesCountry, ...proxiesUseful];
+          const proxiesChatgpt = proxiesUseful.filter(proxy => !proxy.includes('香港')); //GPT节点组排除香港
       
           //AA默认代理-自动选择
           const proxyGroup_autoSelect_Default = {
@@ -112,45 +112,40 @@ parsers:
           };
           obj['proxy-groups'].splice(1, 0, proxyGroup_ChatGPT);
       
-          const bing = {
+          const proxyGroup_bing = {
               name: 'bing',
               type: 'select',
               proxies: [...proxiesChatgpt]
           };
-          obj['proxy-groups'].splice(2, 0, bing);
+          obj['proxy-groups'].splice(2, 0, proxyGroup_bing);
       
-          const battle = {
+          const proxyGroup_battle = {
               name: '战网',
               type: 'select',
               proxies: proxiesDefault,
           };
-          obj['proxy-groups'].splice(2, 0, battle);
+          obj['proxy-groups'].splice(3, 0, proxyGroup_battle);
       
-          const Apple = {
+          const proxyGroup_Apple = {
               name: '苹果服务',
               type: 'select',
               proxies: proxiesDefault,
           };
-          obj['proxy-groups'].splice(3, 0, Apple);
+          obj['proxy-groups'].splice(4, 0, proxyGroup_Apple);
       
-          const Microsoft = {
+          const proxyGroup_Microsoft = {
               name: '微软服务',
               type: 'select',
               proxies: proxiesDefault,
           };
-          obj['proxy-groups'].splice(3, 0, Microsoft);
+          obj['proxy-groups'].splice(5, 0, proxyGroup_Microsoft);
       
-          const match = {
+          const proxyGroup_match = {
               name: '漏网之鱼',
               type: 'select',
               proxies: proxiesDefault,
           };
-          obj['proxy-groups'].splice(3, 0, match);
-      
-      
-      
-      
-      
+          obj['proxy-groups'].splice(6, 0, proxyGroup_match);
       
       
       
@@ -266,6 +261,7 @@ parsers:
               'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
               'PROCESS-NAME,MATLABWindow.exe,DIRECT',
               'DOMAIN-SUFFIX,mathworks.com,默认代理',
+      
               //steam
               'DOMAIN,api.steampowered.com,默认代理',
               'PROCESS-NAME,steamwebhelper.exe,默认代理',
@@ -313,15 +309,17 @@ parsers:
               'DOMAIN-KEYWORD,claude,chatgpt',
               'DOMAIN,plausible.midway.run,chatgpt',
       
+              //bing
               'DOMAIN-SUFFIX,bing.com,bing',
               'DOMAIN-KEYWORD,copilot,bing',
               'DOMAIN-SUFFIX,bingapis.com,bing',
               'DOMAIN-SUFFIX,bingparachute.com,bing',
       
+              // 战网
               'PROCESS-NAME,Battle.net.exe,战网',
               'DOMAIN,telemetry-in.battle.net,战网',
       
-      
+              // ruleset
               // 'RULE-SET,applications,DIRECT',
               'RULE-SET,private,DIRECT',
               'RULE-SET,direct,DIRECT',
@@ -332,6 +330,7 @@ parsers:
               'RULE-SET,gfw,默认代理',
               'RULE-SET,telegramcidr,默认代理',
               'GEOIP,CN,DIRECT',
+      
               'MATCH,漏网之鱼'
           ];
           obj['rules'] = newRules;
