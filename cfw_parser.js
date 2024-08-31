@@ -1,7 +1,7 @@
 module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url, interval, selected }) => {
     const obj = yaml.parse(raw)
     //////////////////////   DNS  //////////////////////
-    obj.dns["default-nameserver"].splice(0, 1, "223.5.5.5")
+    obj["dns"]["default-nameserver"].splice(0, 1, "223.5.5.5")
     obj.dns["default-nameserver"].splice(1, 1, "119.29.29.29")
 
     obj.dns["nameserver"].splice(0, 1, "https://doh.pub/dns-query")
@@ -284,6 +284,9 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,zmyos.com,默认代理',
 
         // DIRECT
+        'DOMAIN-SUFFIX,cn.mm.bing.net:443,DIRECT',
+        'DOMAIN,www.bing.com,DIRECT',
+        'DOMAIN,cn.bing.com,DIRECT',
         'DOMAIN-KEYWORD,starrycoding,DIRECT',
         'DOMAIN-KEYWORD,eriktse,DIRECT',
         'DOMAIN,oi-wiki.org,DIRECT',
@@ -306,7 +309,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-KEYWORD,claude,chatgpt',
         'DOMAIN,plausible.midway.run,chatgpt',
 
-        //bing
+        //Bing Copilot
         'DOMAIN-SUFFIX,bing.com,bing',
         'DOMAIN-KEYWORD,copilot,bing',
         'DOMAIN-SUFFIX,bingapis.com,bing',
