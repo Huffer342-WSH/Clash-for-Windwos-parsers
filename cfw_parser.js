@@ -265,6 +265,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'PROCESS-NAME,steam.exe,DIRECT',
 
         //默认代理
+        'DOMAIN-SUFFIX,support.xilinx.com,默认代理',
         'DOMAIN-SUFFIX,docs.amd.com,默认代理',
         'DOMAIN-SUFFIX,fba02.fbva-ho0.cc,默认代理',
         'DOMAIN-SUFFIX,amazonaws.com,默认代理',
