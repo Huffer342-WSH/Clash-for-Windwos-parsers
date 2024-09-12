@@ -257,6 +257,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         //Matlab
         'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
         'PROCESS-NAME,MATLABWindow.exe,DIRECT',
+        'DOMAIN,esd.mathworks.com,DIRECT',
         'DOMAIN-SUFFIX,mathworks.com,默认代理',
 
         //steam
