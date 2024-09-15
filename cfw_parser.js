@@ -312,6 +312,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN,yacd.haishan.me,DIRECT',
 
         //chatgpt
+        'DOMAIN,challenges.cloudflare.com,chatgpt',
         'DOMAIN-SUFFIX,chatgpt.com,chatgpt',
         'DOMAIN-SUFFIX,openai.com,chatgpt',
         'DOMAIN,cdn.oaistatic.com,chatgpt',
