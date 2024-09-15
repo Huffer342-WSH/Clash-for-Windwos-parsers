@@ -261,6 +261,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,mathworks.com,默认代理',
 
         //steam
+        'DOMAIN-KEYWORD,steamcloud,默认代理',
         'DOMAIN,api.steampowered.com,默认代理',
         'PROCESS-NAME,steamwebhelper.exe,默认代理',
         'PROCESS-NAME,steam.exe,DIRECT',
