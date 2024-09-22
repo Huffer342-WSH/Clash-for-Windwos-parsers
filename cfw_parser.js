@@ -1,15 +1,31 @@
 module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url, interval, selected }) => {
     const obj = yaml.parse(raw)
     //////////////////////   DNS  //////////////////////
-    obj["dns"]["default-nameserver"].splice(0, 1, "223.5.5.5")
+    if (!obj.hasOwnProperty("dns")) {
+        obj["dns"] = {};
+    }
+
+    if (!obj.dns.hasOwnProperty("default-nameserver")) {
+        obj.dns["default-nameserver"] = [];
+    }
+    obj.dns["default-nameserver"].splice(0, 1, "223.5.5.5")
     obj.dns["default-nameserver"].splice(1, 1, "119.29.29.29")
 
+    if (!obj.dns.hasOwnProperty("nameserver")) {
+        obj.dns["nameserver"] = [];
+    }
     obj.dns["nameserver"].splice(0, 1, "https://doh.pub/dns-query")
     obj.dns["nameserver"].splice(1, 1, "https://dns.alidns.com/dns-query")
 
+    if (!obj.dns.hasOwnProperty("fallback")) {
+        obj.dns["fallback"] = [];
+    }
     obj.dns["fallback"].splice(0, 1, "https://1.1.1.1/dns-query")
     obj.dns["fallback"].splice(1, 1, "https://208.67.222.222/dns-query")
 
+    if (!obj.dns.hasOwnProperty("fallback-filter")) {
+        obj.dns["fallback-filter"] = {};
+    }
     const fallback_filter = {
         geoip: true,
         "geoip-code": 'CN',
@@ -58,6 +74,9 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         }
     }
 
+    if (!obj.hasOwnProperty("proxy-groups")) {
+        obj["proxy-groups"] = [];
+    }
     //节点名称分组
     const proxiesRAW = obj.proxies.map(proxy => proxy.name);
     const proxiesUseful = proxiesRAW.filter(proxy => {
