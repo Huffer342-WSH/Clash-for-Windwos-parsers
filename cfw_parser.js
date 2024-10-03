@@ -286,6 +286,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'PROCESS-NAME,steam.exe,DIRECT',
 
         //默认代理 
+        'DOMAIN-SUFFIX,cloudflarestorage.com,默认代理',
         'DOMAIN-SUFFIX,pling.com,默认代理',
         'DOMAIN-SUFFIX,gnome-look.org,默认代理',
         'DOMAIN,Filters.adtidy.org,默认代理',
@@ -319,7 +320,6 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,zmyos.com,默认代理',
 
         // DIRECT
-        'DOMAIN-SUFFIX,cloudflarestorage.com,DIRECT',
         'DOMAIN,xilinx-ax-dl.entitlenow.com,DIRECT',
         'DOMAIN-SUFFIX,cn.mm.bing.net,DIRECT',
         'DOMAIN,www.bing.com,DIRECT',
