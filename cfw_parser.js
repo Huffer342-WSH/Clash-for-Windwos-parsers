@@ -287,6 +287,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
         //默认代理 
         'DOMAIN-SUFFIX,cloudflarestorage.com,默认代理',
+        'DOMAIN,adaptivesupport.amd.com,默认代理',
         'DOMAIN-SUFFIX,pling.com,默认代理',
         'DOMAIN-SUFFIX,gnome-look.org,默认代理',
         'DOMAIN,Filters.adtidy.org,默认代理',
