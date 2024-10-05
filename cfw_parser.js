@@ -321,7 +321,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,zmyos.com,默认代理',
 
         // DIRECT
-        'DOMAIN,xilinx-ax-dl.entitlenow.com,DIRECT',
+        'DOMAIN-SUFFIX,entitlenow.com,DIRECT',
         'DOMAIN-SUFFIX,cn.mm.bing.net,DIRECT',
         'DOMAIN,www.bing.com,DIRECT',
         'DOMAIN,cn.bing.com,DIRECT',
