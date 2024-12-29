@@ -286,6 +286,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'PROCESS-NAME,steam.exe,DIRECT',
 
         //默认代理 
+        'DOMAIN,esm.ubuntu.com,默认代理',
+        'DOMAIN,ppa.launchpad.net,默认代理',
         'DOMAIN-SUFFIX,cloudflarestorage.com,默认代理',
         'DOMAIN,adaptivesupport.amd.com,默认代理',
         'DOMAIN-SUFFIX,pling.com,默认代理',
@@ -294,7 +296,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,gitkraken.com,默认代理',
         'DOMAIN-SUFFIX,nodejs.org,默认代理',
         'DOMAIN-SUFFIX,npmjs.org,默认代理',
-        // 'DOMAIN,cdn.xiaolincoding.com,默认代理',
+        'DOMAIN,cdn.xiaolincoding.com,默认代理',
         'DOMAIN,linuxmirrors.cn,默认代理',
         'DOMAIN,support.xilinx.com,默认代理',
         'DOMAIN,docs.amd.com,默认代理',
