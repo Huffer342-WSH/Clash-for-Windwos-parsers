@@ -248,6 +248,12 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
     //////////////////////  rules  //////////////////////
     const newRules = [
+        // 局域网
+        'IP-CIDR,10.0.0.0/8,DIRECT,no-resolve',
+        'IP-CIDR,172.16.0.0/12,DIRECT,no-resolve',
+        'IP-CIDR,192.168.0.0/16,DIRECT,no-resolve',
+        'IP-CIDR,127.0.0.1/32,DIRECT,no-resolve',
+
         //Matlab
         'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
         'PROCESS-NAME,MATLABWindow.exe,DIRECT',
