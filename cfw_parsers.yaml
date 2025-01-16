@@ -3,40 +3,46 @@ parsers:
     code: |
       module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url, interval, selected }) => {
           const obj = yaml.parse(raw)
-          //////////////////////   DNS  //////////////////////
-          if (!obj.hasOwnProperty("dns")) {
-              obj["dns"] = {};
-          }
+          const newobj = {}
+          //======================  开关 ======================
+          const enable_replace_rules = true
       
-          if (!obj.dns.hasOwnProperty("default-nameserver")) {
-              obj.dns["default-nameserver"] = [];
-          }
-          obj.dns["default-nameserver"].splice(0, 1, "223.5.5.5")
-          obj.dns["default-nameserver"].splice(1, 1, "119.29.29.29")
-      
-          if (!obj.dns.hasOwnProperty("nameserver")) {
-              obj.dns["nameserver"] = [];
-          }
-          obj.dns["nameserver"].splice(0, 1, "https://doh.pub/dns-query")
-          obj.dns["nameserver"].splice(1, 1, "https://dns.alidns.com/dns-query")
-      
-          if (!obj.dns.hasOwnProperty("fallback")) {
-              obj.dns["fallback"] = [];
-          }
-          obj.dns["fallback"].splice(0, 1, "https://1.1.1.1/dns-query")
-          obj.dns["fallback"].splice(1, 1, "https://208.67.222.222/dns-query")
-      
-          if (!obj.dns.hasOwnProperty("fallback-filter")) {
-              obj.dns["fallback-filter"] = {};
-          }
-          const fallback_filter = {
-              geoip: true,
-              "geoip-code": 'CN',
-              ipcidr: ['240.0.0.0/4', '0.0.0.0/32']
+          //======================  固定配置 ======================
+          newobj["mixed-port"] = 7890;
+          newobj["allow-lan"] = true;
+          newobj["bind-address"] = "*";
+          newobj["mode"] = "rule";
+          newobj["log-level"] = "info";
+          newobj["external-controller"] = "127.0.0.1:9090";
+          newobj["dns"] = {
+              enable: true,
+              ipv6: false,
+              "default-nameserver": ["223.5.5.5", "119.29.29.29"],
+              "enhanced-mode": "fake-ip",
+              "fake-ip-range": "198.18.0.1/16",
+              "use-hosts": true,
+              nameserver: [
+                  "https://doh.pub/dns-query",
+                  "https://dns.alidns.com/dns-query",
+              ],
+              fallback: [
+                  "https://1.1.1.1/dns-query",
+                  "https://208.67.222.222/dns-query",
+                  "https://dns.twnic.tw/dns-query",
+                  "tls://8.8.4.4:853",
+              ],
+              "fallback-filter": {
+                  geoip: true,
+                  "geoip-code": "CN",
+                  ipcidr: ["240.0.0.0/4", "0.0.0.0/32"],
+              },
           };
-          obj.dns["fallback-filter"] = fallback_filter
       
-          //////////////////////   Proxy Group  //////////////////////
+          //======================  proxies ======================
+          newobj["proxies"] = obj["proxies"]
+      
+          //======================  Proxy Group ======================
+          newobj['proxy-groups'] = []
           function createProxyGroups(obj, name, auxStrings) {
               // 直接在 filter 中提取 name 属性并过滤
               const proxyNames = obj.proxies
@@ -77,94 +83,64 @@ parsers:
               }
           }
       
-          if (!obj.hasOwnProperty("proxy-groups")) {
-              obj["proxy-groups"] = [];
-          }
           //节点名称分组
-          const proxiesRAW = obj.proxies.map(proxy => proxy.name);
+      
+          // 所有节点
+          const proxiesRAW = newobj.proxies.map(proxy => proxy.name);
+      
+          // 有效节点
           const proxiesUseful = proxiesRAW.filter(proxy => {
               return !proxy.includes('剩余') && !proxy.includes('套餐') && !proxy.includes('网址') && !proxy.includes('客服');
           });
       
-          const proxiesCountry = [];//用于保存各个国家节点组的名称
-      
           // 生成各个国家的节点组
-          addProxyGroup(obj, proxiesCountry, '节点组-美国', ['美国', 'US'])
-          addProxyGroup(obj, proxiesCountry, '节点组-香港', ['香港', 'HK']);
-          addProxyGroup(obj, proxiesCountry, '节点组-台湾', ['台湾', 'TW']);
-          addProxyGroup(obj, proxiesCountry, '节点组-日本', ['日本', 'JP']);
-          addProxyGroup(obj, proxiesCountry, '节点组-韩国', ['韩国', 'KR']);
-          addProxyGroup(obj, proxiesCountry, '节点组-澳大利亚', ['澳大利亚', 'AU']);
-          addProxyGroup(obj, proxiesCountry, '节点组-新加坡', ['新加坡', 'SG']);
-          addProxyGroup(obj, proxiesCountry, '节点组-法国', ['法国', 'FR']);
-          addProxyGroup(obj, proxiesCountry, '节点组-英国', ['英国', 'UK']);
-          addProxyGroup(obj, proxiesCountry, '节点组-德国', ['德国', 'DE']);
-          addProxyGroup(obj, proxiesCountry, '节点组-意大利', ['意大利', 'IT']);
-          addProxyGroup(obj, proxiesCountry, '节点组-俄罗斯', ['俄罗斯', 'RU']);
+          const proxiesCountries = [];//用于保存各个国家节点组的名称
+          const proxyMatcher = [
+              { name: '节点组-美国', match: ['美国', 'US', '🇺🇸'] },
+              { name: '节点组-香港', match: ['香港', 'HK', '🇭🇰'] },
+              { name: '节点组-台湾', match: ['台湾', 'TW'] },
+              { name: '节点组-日本', match: ['日本', 'JP'] },
+              { name: '节点组-韩国', match: ['韩国', 'KR'] },
+              { name: '节点组-澳大利亚', match: ['澳大利亚', 'AU'] },
+              { name: '节点组-新加坡', match: ['新加坡', 'SG'] },
+              { name: '节点组-法国', match: ['法国', 'FR'] },
+              { name: '节点组-英国', match: ['英国', 'UK'] },
+              { name: '节点组-德国', match: ['德国', 'DE'] },
+              { name: '节点组-意大利', match: ['意大利', 'IT'] },
+              { name: '节点组-俄罗斯', match: ['俄罗斯', 'RU'] },
+          ];
       
-          const proxiesDefault = ['默认代理', 'DIRECT', ...proxiesCountry, ...proxiesUseful];
+          // 遍历数组调用 addProxyGroup
+          proxyMatcher.forEach(group => {
+              addProxyGroup(newobj, proxiesCountries, group.name, group.match);
+          });
+      
+          const proxiesDefault = ['默认代理', 'DIRECT', ...proxiesCountries, ...proxiesUseful];
           const proxiesChatgpt = proxiesUseful.filter(proxy => !proxy.includes('香港')); //GPT节点组排除香港
       
-          //AA默认代理-自动选择
-          const proxyGroup_autoSelect_Default = {
-              name: 'AA默认代理-自动选择',
-              type: 'url-test',
-              proxies: proxiesUseful,
-              url: 'http://www.gstatic.com/generate_204',
-              interval: 86400
-          };
-          obj['proxy-groups'].push(proxyGroup_autoSelect_Default);
+          const proxyGroupConfigs = [
+              {
+                  name: '自动选择',
+                  type: 'url-test',
+                  proxies: proxiesUseful,
+                  url: 'http://www.gstatic.com/generate_204',
+                  interval: 86400,
+              },
+              {
+                  name: '默认代理',
+                  type: 'select',
+                  proxies: ['自动选择', 'DIRECT', ...proxiesCountries, ...proxiesRAW],
+              },
+              { name: 'chatgpt', type: 'select', proxies: [...proxiesChatgpt] },
+              { name: 'bing', type: 'select', proxies: [...proxiesChatgpt] },
+              { name: '战网', type: 'select', proxies: proxiesDefault },
+              { name: '苹果服务', type: 'select', proxies: proxiesDefault },
+              { name: '微软服务', type: 'select', proxies: proxiesDefault },
+              { name: '漏网之鱼', type: 'select', proxies: proxiesDefault },
+          ];
       
-          // 默认代理
-          const proxyGroup_default = {
-              name: '默认代理',
-              type: 'select',
-              proxies: ['AA默认代理-自动选择', 'DIRECT', ...proxiesCountry, ...proxiesRAW]
-          };
-          obj['proxy-groups'].splice(0, 0, proxyGroup_default);
+          newobj['proxy-groups'].unshift(...proxyGroupConfigs);
       
-          //chatgpt
-          const proxyGroup_ChatGPT = {
-              name: 'chatgpt',
-              type: 'select',
-              proxies: [...proxiesChatgpt]
-          };
-          obj['proxy-groups'].splice(1, 0, proxyGroup_ChatGPT);
-      
-          const proxyGroup_bing = {
-              name: 'bing',
-              type: 'select',
-              proxies: [...proxiesChatgpt]
-          };
-          obj['proxy-groups'].splice(2, 0, proxyGroup_bing);
-      
-          const proxyGroup_battle = {
-              name: '战网',
-              type: 'select',
-              proxies: proxiesDefault,
-          };
-          obj['proxy-groups'].splice(3, 0, proxyGroup_battle);
-      
-          const proxyGroup_Apple = {
-              name: '苹果服务',
-              type: 'select',
-              proxies: proxiesDefault,
-          };
-          obj['proxy-groups'].splice(4, 0, proxyGroup_Apple);
-      
-          const proxyGroup_Microsoft = {
-              name: '微软服务',
-              type: 'select',
-              proxies: proxiesDefault,
-          };
-          obj['proxy-groups'].splice(5, 0, proxyGroup_Microsoft);
-      
-          const proxyGroup_match = {
-              name: '漏网之鱼',
-              type: 'select',
-              proxies: proxiesDefault,
-          };
-          obj['proxy-groups'].splice(6, 0, proxyGroup_match);
       
       
       
@@ -270,12 +246,17 @@ parsers:
               }
           };
       
-          obj['rule-providers'] = obj['rule-providers'] || {};
-          Object.assign(obj['rule-providers'], newRuleProviders);
+          newobj['rule-providers'] = newRuleProviders;
       
       
           //////////////////////  rules  //////////////////////
           const newRules = [
+              // 局域网
+              'IP-CIDR,10.0.0.0/8,DIRECT,no-resolve',
+              'IP-CIDR,172.16.0.0/12,DIRECT,no-resolve',
+              'IP-CIDR,192.168.0.0/16,DIRECT,no-resolve',
+              'IP-CIDR,127.0.0.1/32,DIRECT,no-resolve',
+      
               //Matlab
               'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
               'PROCESS-NAME,MATLABWindow.exe,DIRECT',
@@ -289,6 +270,10 @@ parsers:
               'PROCESS-NAME,steam.exe,DIRECT',
       
               //默认代理 
+              'PROCESS-NAME,Clash for Windows.exe,默认代理',
+              'PROCESS-NAME,cfw,默认代理',
+              'DOMAIN,esm.ubuntu.com,默认代理',
+              'DOMAIN,ppa.launchpad.net,默认代理',
               'DOMAIN-SUFFIX,cloudflarestorage.com,默认代理',
               'DOMAIN,adaptivesupport.amd.com,默认代理',
               'DOMAIN-SUFFIX,pling.com,默认代理',
@@ -297,7 +282,7 @@ parsers:
               'DOMAIN-SUFFIX,gitkraken.com,默认代理',
               'DOMAIN-SUFFIX,nodejs.org,默认代理',
               'DOMAIN-SUFFIX,npmjs.org,默认代理',
-              // 'DOMAIN,cdn.xiaolincoding.com,默认代理',
+              'DOMAIN,cdn.xiaolincoding.com,默认代理',
               'DOMAIN,linuxmirrors.cn,默认代理',
               'DOMAIN,support.xilinx.com,默认代理',
               'DOMAIN,docs.amd.com,默认代理',
@@ -375,9 +360,11 @@ parsers:
       
               'MATCH,漏网之鱼'
           ];
-          obj['rules'] = newRules;
-          // obj['rules'] = obj['rules'] || [];
-          // obj['rules'].unshift(...newRules);
+          if (enable_replace_rules) {
+              newobj['rules'] = newRules;
+          } else {
+              newobj["rules"] = [...newRules, ...obj["rules"]];
+          }
       
-          return yaml.stringify(obj)
+          return yaml.stringify(newobj)
       }

@@ -267,6 +267,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'PROCESS-NAME,steam.exe,DIRECT',
 
         //默认代理 
+        'PROCESS-NAME,Clash for Windows.exe,默认代理',
+        'PROCESS-NAME,cfw,默认代理',
         'DOMAIN,esm.ubuntu.com,默认代理',
         'DOMAIN,ppa.launchpad.net,默认代理',
         'DOMAIN-SUFFIX,cloudflarestorage.com,默认代理',
