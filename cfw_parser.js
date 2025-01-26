@@ -124,9 +124,27 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
             interval: 86400,
         },
         {
+            name: '负载均衡-轮询',
+            type: 'load-balance',
+            proxies: proxiesUseful,
+            url: 'http://www.gstatic.com/generate_204',
+            interval: 86400,
+            strategy: 'round-robin',
+            lazy: true
+        },
+        {
+            name: '负载均衡-一致性哈希',
+            type: 'load-balance',
+            proxies: proxiesUseful,
+            url: 'http://www.gstatic.com/generate_204',
+            interval: 86400,
+            strategy: 'consistent-hashing',
+            lazy: true
+        },
+        {
             name: '默认代理',
             type: 'select',
-            proxies: ['自动选择', 'DIRECT', ...proxiesCountries, ...proxiesRAW],
+            proxies: ['自动选择', 'DIRECT', '负载均衡-轮询', '负载均衡-一致性哈希', ...proxiesCountries, ...proxiesRAW],
         },
         { name: 'chatgpt', type: 'select', proxies: [...proxiesChatgpt] },
         { name: 'bing', type: 'select', proxies: [...proxiesChatgpt] },
