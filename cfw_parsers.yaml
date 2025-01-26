@@ -90,7 +90,7 @@ parsers:
       
           // 有效节点
           const proxiesUseful = proxiesRAW.filter(proxy => {
-              return !proxy.includes('剩余') && !proxy.includes('套餐') && !proxy.includes('网址') && !proxy.includes('客服');
+              return !proxy.includes('剩余') && !proxy.includes('套餐') && !proxy.includes('网址') && !proxy.includes('客服') && !proxy.includes('过滤');
           });
       
           // 生成各个国家的节点组
@@ -115,7 +115,7 @@ parsers:
               addProxyGroup(newobj, proxiesCountries, group.name, group.match);
           });
       
-          const proxiesDefault = ['默认代理', 'DIRECT', ...proxiesCountries, ...proxiesUseful];
+          const proxiesDefault = ['默认代理', 'DIRECT', '负载均衡-轮询', '负载均衡-一致性哈希', ...proxiesCountries, ...proxiesUseful];
           const proxiesChatgpt = proxiesUseful.filter(proxy => !proxy.includes('香港')); //GPT节点组排除香港
       
           const proxyGroupConfigs = [
@@ -127,13 +127,32 @@ parsers:
                   interval: 86400,
               },
               {
+                  name: '负载均衡-轮询',
+                  type: 'load-balance',
+                  proxies: proxiesUseful,
+                  url: 'http://www.gstatic.com/generate_204',
+                  interval: 86400,
+                  strategy: 'round-robin',
+                  lazy: true
+              },
+              {
+                  name: '负载均衡-一致性哈希',
+                  type: 'load-balance',
+                  proxies: proxiesUseful,
+                  url: 'http://www.gstatic.com/generate_204',
+                  interval: 86400,
+                  strategy: 'consistent-hashing',
+                  lazy: true
+              },
+              {
                   name: '默认代理',
                   type: 'select',
-                  proxies: ['自动选择', 'DIRECT', ...proxiesCountries, ...proxiesRAW],
+                  proxies: ['自动选择', 'DIRECT', '负载均衡-轮询', '负载均衡-一致性哈希', ...proxiesCountries, ...proxiesRAW],
               },
               { name: 'chatgpt', type: 'select', proxies: [...proxiesChatgpt] },
               { name: 'bing', type: 'select', proxies: [...proxiesChatgpt] },
               { name: '战网', type: 'select', proxies: proxiesDefault },
+              { name: 'Telegram', type: 'select', proxies: proxiesDefault },
               { name: '苹果服务', type: 'select', proxies: proxiesDefault },
               { name: '微软服务', type: 'select', proxies: proxiesDefault },
               { name: '漏网之鱼', type: 'select', proxies: proxiesDefault },
@@ -223,13 +242,6 @@ parsers:
                   path: './ruleset/cncidr.yaml',
                   interval: 86400
               },
-              'lancidr': {
-                  type: 'http',
-                  behavior: 'ipcidr',
-                  url: 'https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt',
-                  path: './ruleset/lancidr.yaml',
-                  interval: 86400
-              },
               'applications': {
                   type: 'http',
                   behavior: 'classical',
@@ -252,25 +264,39 @@ parsers:
           //////////////////////  rules  //////////////////////
           const newRules = [
               // 局域网
+              'IP-CIDR,0.0.0.0/8,DIRECT,no-resolve',
               'IP-CIDR,10.0.0.0/8,DIRECT,no-resolve',
+              'IP-CIDR,100.64.0.0/10,DIRECT,no-resolve',
+              'IP-CIDR,127.0.0.0/8,DIRECT,no-resolve',
+              'IP-CIDR,169.254.0.0/16,DIRECT,no-resolve',
               'IP-CIDR,172.16.0.0/12,DIRECT,no-resolve',
+              'IP-CIDR,192.0.0.0/24,DIRECT,no-resolve',
+              'IP-CIDR,192.0.2.0/24,DIRECT,no-resolve',
+              'IP-CIDR,192.88.99.0/24,DIRECT,no-resolve',
               'IP-CIDR,192.168.0.0/16,DIRECT,no-resolve',
-              'IP-CIDR,127.0.0.1/32,DIRECT,no-resolve',
+              'IP-CIDR,198.18.0.0/15,DIRECT,no-resolve',
+              'IP-CIDR,198.51.100.0/24,DIRECT,no-resolve',
+              'IP-CIDR,203.0.113.0/24,DIRECT,no-resolve',
+              'IP-CIDR,224.0.0.0/3,DIRECT,no-resolve',
+              'IP-CIDR,::/127,DIRECT,no-resolve',
+              'IP-CIDR,fc00::/7,DIRECT,no-resolve',
+              'IP-CIDR,fe80::/10,DIRECT,no-resolve',
+              'IP-CIDR,ff00::/8,DIRECT,no-resolve',
       
               //Matlab
-              'PROCESS-NAME,MathWorksProductInstaller.exe,DIRECT',
-              'PROCESS-NAME,MATLABWindow.exe,DIRECT',
+              'PROCESS-NAME,MathWorksProductInstaller,DIRECT',
+              'PROCESS-NAME,MATLABWindow,DIRECT',
               'DOMAIN,esd.mathworks.com,DIRECT',
               'DOMAIN-SUFFIX,mathworks.com,默认代理',
       
               //steam
               'DOMAIN-KEYWORD,steamcloud,默认代理',
-              'DOMAIN,api.steampowered.com,默认代理',
-              'PROCESS-NAME,steamwebhelper.exe,默认代理',
-              'PROCESS-NAME,steam.exe,DIRECT',
+              'DOMAIN,steamcommunity.com,默认代理',
+              'DOMAIN-SUFFIX,steampowered.com,默认代理',
+              'PROCESS-NAME,steam,DIRECT',
       
               //默认代理 
-              'PROCESS-NAME,Clash for Windows.exe,默认代理',
+              'PROCESS-NAME,Clash for Windows,默认代理',
               'PROCESS-NAME,cfw,默认代理',
               'DOMAIN,esm.ubuntu.com,默认代理',
               'DOMAIN,ppa.launchpad.net,默认代理',
@@ -300,8 +326,8 @@ parsers:
               'DOMAIN-SUFFIX,ppgnginx.com,默认代理',
               'DOMAIN-SUFFIX,itzmx.com,默认代理',
               'DOMAIN-SUFFIX,epicgames.com,默认代理',
-              'PROCESS-NAME,qbittorrent.exe,默认代理',
-              'PROCESS-NAME,fdm.exe,默认代理',
+              'PROCESS-NAME,qbittorrent,默认代理',
+              'PROCESS-NAME,fdm,默认代理',
               'DOMAIN-SUFFIX,pythonhosted.org,默认代理',
               'DOMAIN-SUFFIX,codeium.com,默认代理',
               'DOMAIN-SUFFIX,hp.com,默认代理',
@@ -344,19 +370,23 @@ parsers:
               'DOMAIN-SUFFIX,bingparachute.com,bing',
       
               // 战网
-              'PROCESS-NAME,Battle.net.exe,战网',
+              'PROCESS-NAME,Battle.net,战网',
               'DOMAIN,telemetry-in.battle.net,战网',
       
               // ruleset
               // 'RULE-SET,applications,DIRECT',
+              'RULE-SET,reject,REJECT',
               'RULE-SET,private,DIRECT',
               'RULE-SET,direct,DIRECT',
-              'RULE-SET,reject,REJECT',
-              'RULE-SET,apple,苹果服务',
-              'RULE-SET,Microsoft,微软服务',
+              'RULE-SET,cncidr,DIRECT',
+              'RULE-SET,proxy,默认代理',
               'RULE-SET,tld-not-cn,默认代理',
               'RULE-SET,gfw,默认代理',
-              'RULE-SET,telegramcidr,默认代理',
+              'RULE-SET,apple,苹果服务',
+              'RULE-SET,Microsoft,微软服务',
+      
+              'RULE-SET,telegramcidr,Telegram',
+              'GEOIP,LAN,DIRECT',
               'GEOIP,CN,DIRECT',
       
               'MATCH,漏网之鱼'
