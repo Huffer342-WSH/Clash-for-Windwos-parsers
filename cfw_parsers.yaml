@@ -283,6 +283,24 @@ parsers:
               'IP-CIDR,fe80::/10,DIRECT,no-resolve',
               'IP-CIDR,ff00::/8,DIRECT,no-resolve',
       
+              //覆盖规则集
+              'DOMAIN-SUFFIX,haita.io,默认代理',
+      
+              // 外部规则集
+              // 'RULE-SET,applications,DIRECT',
+              'RULE-SET,reject,REJECT',
+              'RULE-SET,private,DIRECT',
+              'RULE-SET,direct,DIRECT',
+              'RULE-SET,cncidr,DIRECT',
+              'RULE-SET,proxy,默认代理',
+              'RULE-SET,tld-not-cn,默认代理',
+              'RULE-SET,gfw,默认代理',
+              'RULE-SET,apple,苹果服务',
+              'RULE-SET,Microsoft,微软服务',
+              'RULE-SET,telegramcidr,Telegram',
+              'GEOIP,LAN,DIRECT',
+              'GEOIP,CN,DIRECT',
+      
               //Matlab
               'PROCESS-NAME,MathWorksProductInstaller,DIRECT',
               'PROCESS-NAME,MATLABWindow,DIRECT',
@@ -301,7 +319,6 @@ parsers:
               'DOMAIN,esm.ubuntu.com,默认代理',
               'DOMAIN,ppa.launchpad.net,默认代理',
               'DOMAIN-SUFFIX,cloudflarestorage.com,默认代理',
-              'DOMAIN-SUFFIX,haita.io,默认代理',
               'DOMAIN,adaptivesupport.amd.com,默认代理',
               'DOMAIN-SUFFIX,pling.com,默认代理',
               'DOMAIN-SUFFIX,gnome-look.org,默认代理',
@@ -373,22 +390,7 @@ parsers:
               'PROCESS-NAME,Battle.net,战网',
               'DOMAIN,telemetry-in.battle.net,战网',
       
-              // ruleset
-              // 'RULE-SET,applications,DIRECT',
-              'RULE-SET,reject,REJECT',
-              'RULE-SET,private,DIRECT',
-              'RULE-SET,direct,DIRECT',
-              'RULE-SET,cncidr,DIRECT',
-              'RULE-SET,proxy,默认代理',
-              'RULE-SET,tld-not-cn,默认代理',
-              'RULE-SET,gfw,默认代理',
-              'RULE-SET,apple,苹果服务',
-              'RULE-SET,Microsoft,微软服务',
-      
-              'RULE-SET,telegramcidr,Telegram',
-              'GEOIP,LAN,DIRECT',
-              'GEOIP,CN,DIRECT',
-      
+              // 默认匹配
               'MATCH,漏网之鱼'
           ];
           if (enable_replace_rules) {
