@@ -283,6 +283,12 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         //覆盖规则集
         'DOMAIN-SUFFIX,haita.io,默认代理',
 
+        // 战网
+        'PROCESS-NAME,Battle.net,战网',
+        'PROCESS-NAME,Battle.net.exe,战网',
+        'DOMAIN-SUFFIX,battle.net,战网',
+        'DOMAIN-SUFFIX,blizzard.com,战网',
+
         // 外部规则集
         // 'RULE-SET,applications,DIRECT',
         'RULE-SET,reject,REJECT',
@@ -383,9 +389,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         'DOMAIN-SUFFIX,bingapis.com,bing',
         'DOMAIN-SUFFIX,bingparachute.com,bing',
 
-        // 战网
-        'PROCESS-NAME,Battle.net,战网',
-        'DOMAIN,telemetry-in.battle.net,战网',
+
 
         // 默认匹配
         'MATCH,漏网之鱼'
